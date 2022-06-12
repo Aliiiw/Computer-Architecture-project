@@ -1,2 +1,2 @@
 # Computer-Architecture-project
-implement mips cpu in python 
+Implement mips cpu in python 
