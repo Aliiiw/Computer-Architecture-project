@@ -1,6 +1,6 @@
 import RegisterFile
 import PC
-import CU
+import ControlUnit
 import time
 
 class InstructionMemory:
@@ -23,8 +23,8 @@ class InstructionMemory:
         rs     = self.instruction [6:11]
         rt     = self.instuction  [11:16]
         rd     = self.instuction  [16:21]
-        constant_address_Itype =  [16:32]
-        constant_address_Jtype =  [6 :32]
+        constant_address_Itype = self.instuction [16 :32]
+        constant_address_Jtype = self.instuction [ 6 :32]
 
         controlKey = ControlUnit.ControlUnit(opcode).instruction()
         
