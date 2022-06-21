@@ -1,7 +1,7 @@
 import numpy
 import InstructionMemory
 import PC
-import BinaryToDecimal
+
 address = []
 a = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
 i = 0
@@ -15,7 +15,7 @@ file.close()
 pc = "00000000000000000000000000000000"
 while(True):
 
-    i = BinaryToDecimal.BinaryToDecimal(pc).BinaryToDecimal()
+    i = int(pc,2)
     i = i // 4
 
     ins="00000000000000000000000000000000"
