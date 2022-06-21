@@ -70,17 +70,28 @@ registersValue = {
 
 def assembler(command, operator1, operator2, operator3):
     machineCode = ""
+
     if command == "add":
         machineCode += commandsOpCodes[command]
-        
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000100000"
+
     elif command == "sub":
         machineCode += commandsOpCodes[command]
-        pass
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000100010"
+        
     elif command == "addi":
         machineCode += commandsOpCodes[command]
-        pass
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += bin(int(operator3))
+
     elif command == "lw":
-        machineCode += commandsOpCodes[command]
         pass
     elif command == "sw":
         machineCode += commandsOpCodes[command]
@@ -101,29 +112,76 @@ def assembler(command, operator1, operator2, operator3):
         pass
     
     elif command == "and":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000100100"
+        
     elif command == "or":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000100101"
+
     elif command == "nor":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000100111"
+
     elif command == "andi":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += bin(int(operator3))
+
     elif command == "ori":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += bin(int(operator3))
+
     elif command == "sll":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += "00000000100"
+
     elif command == "srl":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += "00000000110"
+
     elif command == "beq":
         pass
     elif command == "bne":
         pass
     elif command == "slt":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000101010"
+
     elif command == "sltu":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        machineCode += "00000101011"
+
     elif command == "slti":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator2]
+        machineCode += registersValue[operator1]
+        machineCode += bin(int(operator3))
+        
     elif command == "j":
         pass
     elif command == "jr":
@@ -136,7 +194,7 @@ def assembler(command, operator1, operator2, operator3):
 
 
 
-    return ""
+    return machineCode
 
 
 
