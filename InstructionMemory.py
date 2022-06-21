@@ -12,14 +12,6 @@ class InstructionMemory:
         
     def fetch(self):
 
-        # a=IFID.IFID(self.array,self.counter,self.PCcounter).call()
-        # if(a=="Nope"):
-        #     return a
-        # if(a=="NopeBranch"):
-        #     self.array[0][0]="Nope"
-        #     self.array[0][1]="InstructionMemory"
-        #     return a
-
         opcode = ""
         rs = ""
         rt = ""
@@ -27,38 +19,29 @@ class InstructionMemory:
 
         constant_address_Itype = ""
         constant_address_Jtype = ""
+        opcode = self.instruction [0:6]
+        rs     = self.instruction [6:11]
+        rt     = self.instuction  [11:16]
+        rd     = self.instuction  [16:21]
+        constant_address_Itype =  [16:32]
+        constant_address_Jtype =  [6 :32]
 
-        for i in range(6):
-            opcode += self.instruction[i]
-
-        for j in range(5):
-            rs += self.instruction[i + j + 1]
-
-        for k in range(5):
-            rt += self.instruction[i + j + k + 2]
-
-        for t in range(5):
-            rd += self.instruction[i + j + k + t + 3]
-
-        for p in range(16):
-            constant_address_Itype += self.instruction[i + j + k + p + 3]
-
-        for u in range(26):
-            constant_address_Jtype += self.instruction[i + u + 1]
-
-        p = controlKey = CU.ControlUnit(opcode).instruction()
-        if(p == "Undefined opcode"):
+        controlKey = ControlUnit.ControlUnit(opcode).instruction()
+        
+        if(controlKey == "N/A"):
             return "Undefined opcode"
-        while(len(rs)!=32):
-            rs = '0' + rs
-            rt = '0' + rt
-            rd = '0' + rd
+        
+        rs = (32-len(rs))*'0' + rs
+        rt = (32-len(rs))*'0' + rt
+        rd = (32-len(rs))*'0' + rd
+        
         if(controlKey == "J"):
-            constant_address_Jtype = self.PCcounter[31]
-            + self.PCcounter[30]
-            + self.PCcounter[29]
-            + self.PCcounter[28]
-            + constant_address_Jtype + "00"
+            
+            constant_address_Jtype  = self.PCcounter[31]
+            constant_address_Jtype += self.PCcounter[30]
+            constant_address_Jtype += self.PCcounter[29]
+            constant_address_Jtype += self.PCcounter[28]
+            constant_address_Jtype += constant_address_Jtype + "00"
 
             self.array[0][0] = controlKey
             self.array[0][1] = "InstructionMemory"
