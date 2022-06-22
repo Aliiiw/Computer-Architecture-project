@@ -9,3 +9,6 @@ ori v0,t6,123
 slt a2,t2,s2
 sltu s1,a1,t1
 slti v0,a2,15
+j 9151,0,0
+jr a0,0,0
+jal 66,0,0

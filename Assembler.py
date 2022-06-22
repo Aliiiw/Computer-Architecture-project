@@ -1,5 +1,3 @@
-from atexit import register
-
 
 commandsOpCodes = {
 
@@ -33,6 +31,7 @@ commandsOpCodes = {
 }
 
 registersValue = {
+
     "zero": "000000",
     "at" : "00001" ,
     "v0" : "00010",
@@ -65,7 +64,9 @@ registersValue = {
     "sp" : "11101",
     "s8" : "11110",
     "ra" : "11111",
+
 }
+
 
 
 def assembler(command, operator1, operator2, operator3):
@@ -93,24 +94,61 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
 
     elif command == "lw":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "sw":
         machineCode += commandsOpCodes[command]
-        pass
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "lh":
         machineCode += commandsOpCodes[command]
-        pass
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "lhu":
         machineCode += commandsOpCodes[command]
-        pass
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "sh":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "lb":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "lbu":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "sb":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator3]
+        machineCode += registersValue[operator1]
+        binary =  bin(int(operator2))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     
     elif command == "and":
         machineCode += commandsOpCodes[command]
@@ -189,11 +227,21 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
 
     elif command == "j":
-        pass
+        machineCode += commandsOpCodes[command]
+        binary =  bin(int(operator1))
+        machineCode += (26 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "jr":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator1]
+        machineCode += "000000000000000001000"
+        
     elif command == "jal":
-        pass
+        machineCode += commandsOpCodes[command]
+        binary =  bin(int(operator1))
+        machineCode += (26 - len(binary[2::])) * "0" + binary[2::]
+
+        
 
     return machineCode
 
