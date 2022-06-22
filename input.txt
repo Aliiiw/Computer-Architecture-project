@@ -1,1 +1,1 @@
-add t1,t2,t3
+slti v0,a2,15

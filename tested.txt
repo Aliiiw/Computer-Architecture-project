@@ -1,0 +1,11 @@
+add t1,t2,t3
+or a0,a1,a2
+and t8,a2,t7
+sub k0,sp,v1
+addi v0,t7,55
+nor s5,k1,t3
+andi t2,s3,5
+ori v0,t6,123
+slt a2,t2,s2
+sltu s1,a1,t1
+slti v0,a2,15

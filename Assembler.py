@@ -89,7 +89,8 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += bin(int(operator3))
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
 
     elif command == "lw":
         pass
@@ -136,13 +137,17 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += bin(int(operator3))
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
 
     elif command == "ori":
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += bin(int(operator3))
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+        
 
     elif command == "sll":
         machineCode += commandsOpCodes[command]
@@ -180,19 +185,15 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += bin(int(operator3))
-        
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "j":
         pass
     elif command == "jr":
         pass
     elif command == "jal":
         pass
-
-
-
-
-
 
     return machineCode
 
@@ -213,9 +214,10 @@ with open('input.txt') as file:
 
         operator1 = registers[0].lower()                                              
         operator2 = registers[1].lower()
-        operator3 = registers[1].lower()
+        operator3 = registers[2].lower()
 
-        assembler(command, operator1, operator2, operator3)
+        
+        print(assembler(command, operator1, operator2, operator3))
 
 
         
