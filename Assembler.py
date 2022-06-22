@@ -1,4 +1,3 @@
-
 commandsOpCodes = {
 
     "add" : "000000",
@@ -68,8 +67,8 @@ registersValue = {
 }
 
 
-
 def assembler(command, operator1, operator2, operator3):
+
     machineCode = ""
 
     if command == "add":
@@ -149,7 +148,6 @@ def assembler(command, operator1, operator2, operator3):
         binary =  bin(int(operator2))
         machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
 
-    
     elif command == "and":
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
@@ -178,7 +176,6 @@ def assembler(command, operator1, operator2, operator3):
         binary =  bin(int(operator3))
         machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
 
-
     elif command == "ori":
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
@@ -186,7 +183,6 @@ def assembler(command, operator1, operator2, operator3):
         binary =  bin(int(operator3))
         machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
         
-
     elif command == "sll":
         machineCode += commandsOpCodes[command]
         machineCode += "00000"
@@ -195,7 +191,6 @@ def assembler(command, operator1, operator2, operator3):
         binary =  bin(int(operator3))[2::]
         machineCode += binary
         machineCode += "000000"
-
 
     elif command == "srl":
         machineCode += commandsOpCodes[command]
@@ -262,17 +257,13 @@ def assembler(command, operator1, operator2, operator3):
     return machineCode
 
 
-
 with open('input.txt') as file:  
-
-    
 
     allString = file.read()
     updateString = allString.splitlines()
 
-
     for i in range(len(updateString)): 
-         
+
         finalResult = []                                        
         instruction = updateString[i].split(" ")
         
@@ -283,13 +274,10 @@ with open('input.txt') as file:
         operator2 = registers[1].lower()
         operator3 = registers[2].lower()
 
-        
         machineCode = assembler(command, operator1, operator2, operator3)
         finalResult += [command]
         finalResult += [machineCode]
         print(finalResult)
-
-
 
         
 
