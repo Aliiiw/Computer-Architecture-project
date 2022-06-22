@@ -1,3 +1,4 @@
+import psycopg2
 # import ControlUnit
 # data=[]
 # file = open("dataMemory.txt", "r")
@@ -50,4 +51,3 @@
 #         self.array[3][3]="00000000000000000000000000000000"
 #         self.array[3][4]=self.registerRd
 #         self.array[3][5]="00000000000000000000000000000000"
-
