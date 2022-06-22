@@ -259,19 +259,21 @@ def assembler(command, operator1, operator2, operator3):
         machineCode += (26 - len(binary[2::])) * "0" + binary[2::]
 
         
-
     return machineCode
 
 
 
 with open('input.txt') as file:  
 
+    
+
     allString = file.read()
     updateString = allString.splitlines()
 
 
-    for i in range(len(updateString)):                                          
-        
+    for i in range(len(updateString)): 
+         
+        finalResult = []                                        
         instruction = updateString[i].split(" ")
         
         command = instruction[0].lower()                      
@@ -282,7 +284,11 @@ with open('input.txt') as file:
         operator3 = registers[2].lower()
 
         
-        print(assembler(command, operator1, operator2, operator3))
+        machineCode = assembler(command, operator1, operator2, operator3)
+        finalResult += [command]
+        finalResult += [machineCode]
+        print(finalResult)
+
 
 
         
