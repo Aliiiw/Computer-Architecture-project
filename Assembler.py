@@ -189,22 +189,39 @@ def assembler(command, operator1, operator2, operator3):
 
     elif command == "sll":
         machineCode += commandsOpCodes[command]
-        machineCode += registersValue[operator3]
+        machineCode += "00000"
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += "00000000100"
+        binary =  bin(int(operator3))[2::]
+        machineCode += binary
+        machineCode += "000000"
+
 
     elif command == "srl":
         machineCode += commandsOpCodes[command]
-        machineCode += registersValue[operator3]
+        machineCode += "00000"
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
-        machineCode += "00000000110"
+        binary =  bin(int(operator3))[2::]
+        if len(binary) < 5:
+            binary = (5 - len(binary)) * "0" + binary
+        machineCode += binary
+        machineCode += "000010"
 
     elif command == "beq":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator1]
+        machineCode += registersValue[operator2]
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+        
     elif command == "bne":
-        pass
+        machineCode += commandsOpCodes[command]
+        machineCode += registersValue[operator1]
+        machineCode += registersValue[operator2]
+        binary =  bin(int(operator3))
+        machineCode += (16 - len(binary[2::])) * "0" + binary[2::]
+
     elif command == "slt":
         machineCode += commandsOpCodes[command]
         machineCode += registersValue[operator2]
