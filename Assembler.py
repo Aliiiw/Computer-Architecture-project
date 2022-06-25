@@ -31,7 +31,7 @@ commandsOpCodes = {
 
 registersValue = {
 
-    "zero": "000000",
+   "zero": "00000",
     "at" : "00001" ,
     "v0" : "00010",
     "v1" : "00011",
