@@ -50,10 +50,10 @@ while ( PC // 4 < len( inputs ) ) :
     
     controlLine = CU.CU (instruction)
     
-    ALU_out = ALU.ALU( controlLine["opcode"] , regdata[:32] , select(i_type,reg[32:],instruction[16:])S)
+    ALU_out = ALU.ALU( controlLine["opcode"] , regdata[:32] , select(controlLine['i_type'],reg[32:],instruction[16:])S)
     
-    #                                     *************
-    #Memory_out = Memory.Memory(ALU_out , ?regdata[32:]? controlLine["Memread"] , controlLine["Memwrite"] , contolLine["memtype"])
+
+    Memory_out = Memory.Memory(ALU_out , regdata[32:] ,  controlLine["Memread"] , controlLine["Memwrite"] , controlLine["memtype"])
     
     Registerin = select ( controlLine["MemToReg"] , ALU_out , Memory_out)
     Registerin = select ( controlLine["Jandlink"] , Registerin , PC+4 )
