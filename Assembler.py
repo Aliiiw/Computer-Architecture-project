@@ -257,11 +257,13 @@ def assembler(command, operator1, operator2, operator3):
     return machineCode
 
 
+FinalResults = []
+
 with open('input.txt') as file:  
 
     allString = file.read()
     updateString = allString.splitlines()
-
+    
     for i in range(len(updateString)): 
 
         finalResult = []                                        
@@ -277,7 +279,9 @@ with open('input.txt') as file:
         machineCode = assembler(command, operator1, operator2, operator3)
         finalResult += [command]
         finalResult += [machineCode]
-        print(finalResult)
+        #print(finalResult)
+        FinalResults += [finalResult]
+        
 
         
 
