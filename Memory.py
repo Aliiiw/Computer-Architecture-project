@@ -1,13 +1,5 @@
 import psycopg2, psycopg2.extras
 
-#open_connection.execute(sql_insert_script, insert_value)
-
-
-# for record in result:
-#     address = record['address']
-#     string_data = record['string_data']
-#     print(address, string_data)
-
 def Memory(address ,data, read , write , Type) :
     
     host_name = "185.105.239.28"
@@ -28,9 +20,7 @@ def Memory(address ,data, read , write , Type) :
    
     # insert_value = (3, '22222222')
     # #open_connection.execute(sql_insert_script, insert_value)
-    # sql_update_script = "update dataMemory set string_data = %s where address = %s"
-    # update_value = ('33333333', 3)
-    #open_connection.execute(sql_update_script, update_value)
+    
     
     
     
@@ -38,10 +28,6 @@ def Memory(address ,data, read , write , Type) :
     
 
 
-    # sql_insert_script = "insert into dataMemory values(default, %s, %s);"
-    # insert_value = ('default', 1, '12345678')
-    # open_connection.execute(sql_insert_script, insert_value)
-    # connection_to_database.commit()
 
     #open_connection.close()
     
@@ -77,10 +63,34 @@ def Memory(address ,data, read , write , Type) :
         return Memdata
     
     if write == '1':
+        
+        value = size - 1
+        sql_select_script = "select * from dataMemory where address between %s and %s;"
+        select_value = ( address, address + value)
+        open_connection.execute(sql_select_script, select_value)
+        result = open_connection.fetchall()
+        
         for i in range(size) :
-            DB [address + i ] = data [i*8:i*8+8]
-        for i in range(size-1,-1,-1) :
-            DB [address + i ] = data [-(i+1)*8 :- (i)*8]
+            isUpdating = False
+            # value_to_find = (address + i, )
+            for res in result :
+                if res['address'] == address + i:
+                    sql_update_script = "update dataMemory set string_data = %s where address = %s"
+                    update_value = (data[i * 8 : i * 8 + 8], address + i)
+                    open_connection.execute(sql_update_script, update_value)
+                    isUpdating = True
+                    break
+                
+            if not isUpdating:
+                
+                sql_insert_script = "insert into dataMemory values(default, %s, %s);"
+                insert_value = ('default', address + i, data[i * 8 : i * 8 + 8])
+                open_connection.execute(sql_insert_script, insert_value)
+                
+                   
+            #DB [address + i ] = data [i*8:i*8+8]
+        # for i in range(size-1,-1,-1) :
+        #     DB [address + i ] = data [-(i+1)*8 :- (i)*8]
             
             
     connection_to_database.commit()
