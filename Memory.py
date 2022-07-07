@@ -24,17 +24,16 @@ def Memory(address ,data, read , write , Type) :
     port=port_id)
     
     open_connection = connection_to_database.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    sql_insert_script = "insert into dataMemory (address,  string_data) values(%s, %s);"
+    # sql_insert_script = "insert into dataMemory (address,  string_data) values(%s, %s);"
    
-    insert_value = (3, '22222222')
-    #open_connection.execute(sql_insert_script, insert_value)
-    sql_update_script = "update dataMemory set string_data = %s where address = %s"
-    update_value = ('33333333', 3)
-    open_connection.execute(sql_update_script, update_value)
+    # insert_value = (3, '22222222')
+    # #open_connection.execute(sql_insert_script, insert_value)
+    # sql_update_script = "update dataMemory set string_data = %s where address = %s"
+    # update_value = ('33333333', 3)
+    #open_connection.execute(sql_update_script, update_value)
     
     
-    connection_to_database.commit()
-
+    
 
     
 
@@ -48,29 +47,27 @@ def Memory(address ,data, read , write , Type) :
     
     signed = bool(int(Type[2]))
     
-    size = [4 , 4 , 2 , 1][int(Type[:2],2)]
-    if (size==1):
+    size = [4 , 4 , 2 , 1][int(Type[:2], 2)]
+    if (size == 1):
         address= int(address)
     else :
         address = int(address[:-(size-1)] + (size-1)*'0',2)
     
     if read == '1' :
         
-        
-
         Memdata = "" 
-        for i in range(size) :
+        
+        value = size - 1    
+        sql_select_script = "select * from dataMemory where address between %s and %s;"
+        select_value = ( address, address + value)
+        open_connection.execute(sql_select_script, select_value)
+        result = open_connection.fetchall()
+        for element in result:
+            Memdata += element['string_data']
             
-            sql_select_script = "select * from dataMemory where address = %s;"
-            select_value = ( address + i ,)
-            open_connection.execute(sql_select_script, select_value)
-            result = open_connection.fetchall()
-            for element in result:
-                print(element['string_data'])
             
             
-            
-            Memdata += DB [address + i ]
+        print(Memdata)
         
         if signed :
             Memdata = 32-len(Memdata)*Memdata[0] + Memdata
@@ -85,4 +82,6 @@ def Memory(address ,data, read , write , Type) :
         for i in range(size-1,-1,-1) :
             DB [address + i ] = data [-(i+1)*8 :- (i)*8]
             
+            
+    connection_to_database.commit()
     open_connection.close()
