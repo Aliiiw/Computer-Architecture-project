@@ -59,7 +59,7 @@ def Memory(address ,data, read , write , Type) :
         for i in range(size) :
             
             sql_select_script = "select * from dataMemory where address = %s;"
-            select_value = (address + i)
+            select_value = 1
             open_connection.execute(sql_select_script, select_value)
             result = open_connection.fetchall()
             for element in result:
