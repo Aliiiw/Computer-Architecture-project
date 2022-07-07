@@ -17,7 +17,10 @@ connection_to_database = psycopg2.connect(
 
 open_connection = connection_to_database.cursor()
 
-sql_script = ""
+sql_script = "select * from dataMemory"
+
+open_connection.execute(sql_script)
+connection_to_database.commit()
 
 open_connection.close()
 
