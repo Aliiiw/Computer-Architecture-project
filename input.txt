@@ -1,7 +1,9 @@
-lw t1,1,t2
-add t1,t2,t3
+lb t0,1,t1
+addi t5,t5,14
+addi t1,t1,1
 sub k0,sp,v1
 addi v0,t7,55
+bne t1,t5,-4
 lw a1,16,a2
 sw t0,23,s7
 lh t4,102,v0

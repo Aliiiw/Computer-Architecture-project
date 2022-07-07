@@ -48,8 +48,11 @@ def Memory(address ,data, read , write , Type) :
     
     signed = bool(int(Type[2]))
     
-    size = [4 , 4 , 2 , 1][int(Type[:2])]
-    address = int(address[:-size])
+    size = [4 , 4 , 2 , 1][int(Type[:2],2)]
+    if (size==1):
+        address= int(address)
+    else :
+        address = int(address[:-(size-1)] + (size-1)*'0',2)
     
     if read == '1' :
         
@@ -59,7 +62,7 @@ def Memory(address ,data, read , write , Type) :
         for i in range(size) :
             
             sql_select_script = "select * from dataMemory where address = %s;"
-            select_value = 1
+            select_value = ( address + i ,)
             open_connection.execute(sql_select_script, select_value)
             result = open_connection.fetchall()
             for element in result:
