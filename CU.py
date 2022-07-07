@@ -29,14 +29,14 @@ ALU['jal'] = '0000'
 
 d = {}
 
-d["i_types"] = ["addi","andi","ori","slti"]
-d["i_types"] += ["lw","sw","lh","sh","lb","sb","lhu","lbu"]
+d["i_type"] = ["addi","andi","ori","slti"]
+d["i_type"] += ["lw","sw","lh","sh","lb","sb","lhu","lbu"]
 d["Memread"] = ["lw","lh","lb","lhu","lbu"]
 d["Memwrite"] = ["sw","sh","sb"]
-d["memtype0"] = ["sh","sb","lh","lb","lhu","lbu"]
-d["memtype1"] = ["sb","lb","lbu"]
-d["memtype2"] = ["lbu" , "lhu"]
-d["memtoreg"] = d["Memread"]
+d["Memtype0"] = ["sh","sb","lh","lb","lhu","lbu"]
+d["Memtype1"] = ["sb","lb","lbu"]
+d["Memtype2"] = ["lbu" , "lhu"]
+d["Memtoreg"] = d["Memread"]
 d["Jandlink"] = ["jal"]
 d["Regwrite"] = ["add","sub","addi"]
 d["Regwrite"]+= ["lw","lh","lhu","lb","lbu"]
@@ -46,12 +46,12 @@ d["Regwrite"]+= ["sll","srl","slt","sltu","slti"]
 d["register_select" ] = ["lw","lh","lhu","lb","lbu"]
 d["register_select" ] += ["addi","andi","ori","slti"]
 
-d["j-type0"] = ["j","jr","jal"]
-d["j-type1"] = ["jr"]
+d["j_type0"] = ["j","jr","jal"]
+d["j_type1"] = ["jr"]
 d["b_type0"] = ["beq","bne"]
 d["b_type1"] = ["bne"]
 
-Lines  = ["i_type","Memread","Memwrite","MemtoReg","Jandlink"]
+Lines  = ["i_type","Memread","Memwrite","Memtoreg","Jandlink"]
 Lines += ["register_select","Regwrite"]
 
 def CU ( instruction) :
@@ -61,12 +61,12 @@ def CU ( instruction) :
     controlLine ["i_type"          ] = '0'
     controlLine ["Memread"         ] = '0'
     controlLine ["Memwrite"        ] = '0'
-    controlLine ["memtype"         ] = '000'
-    controlLine ["MemToReg"        ] = '0'
+    controlLine ["Memtype"         ] = '000'
+    controlLine ["Memtoreg"        ] = '0'
     controlLine ["Jandlink"        ] = '0'
     controlLine ["register_select" ] = '0'
     controlLine ["Regwrite"        ] = '0'
-    controlLine ["j-type"          ] = '00'
+    controlLine ["j_type"          ] = '00'
     controlLine ["b_type"          ] = '00'
     controlLine ["ALU"             ] = ALU[command]
     
@@ -75,7 +75,7 @@ def CU ( instruction) :
         if (command in d[Line]):
             controlLine[Line] = '1'
             
-    for Line in ["memtype","j-type","b-type"]:
+    for Line in ["Memtype","j_type","b_type"]:
         i = 0
         s = ""
         while Line + str(i) in d :
@@ -86,3 +86,4 @@ def CU ( instruction) :
             i+=1
         controlLine[Line] = s
     
+    return controlLine

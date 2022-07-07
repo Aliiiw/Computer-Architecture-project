@@ -7,13 +7,13 @@ import CU
 
 
 def select ( select_line , wire_a , wire_b ) :
-    if select_line =='0' :
+    if bool(int(select_line)) == False :
         return wire_a
-    if select_line =='b' :
+    if bool(int(select_line)) == True :
         return wire_b
     print("EROR INVALID SELECT_LINE")
 
-def update_PC (PC,jype,btype,ALU_OUT , instruction ,regdata) :
+def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     PC += 4
     
     
@@ -25,12 +25,13 @@ def update_PC (PC,jype,btype,ALU_OUT , instruction ,regdata) :
     PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
     
     
-    PC_j = select (jtype[1],int(instruction[-26:]) , int(regdata))
+    PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))
     
     
     PC = select (btype[0] , PC,PC_b )
     PC = select (jtype[0] ,PC , PC_j)
 
+    return PC
 
 
 
@@ -50,12 +51,11 @@ while ( PC // 4 < len( inputs ) ) :
     
     controlLine = CU.CU (instruction)
     
-    ALU_out = ALU.ALU( controlLine["ALU"] , regdata[:32] , select(controlLine['i_type'],reg[32:],instruction[16:]))
-    
+    ALU_out = ALU.ALU( controlLine["ALU"] , regdata[:32] , select(controlLine['i_type'],regdata[32:], 16*'0' + instruction[1][16:]))
 
-    Memory_out = Memory.Memory(ALU_out , regdata[32:] ,  controlLine["Memread"] , controlLine["Memwrite"] , controlLine["memtype"])
+    Memory_out = Memory.Memory(ALU_out , regdata[32:] ,  controlLine["Memread"] , controlLine["Memwrite"] , controlLine["Memtype"])
     
-    Registerin = select ( controlLine["MemToReg"] , ALU_out , Memory_out)
+    Registerin = select ( controlLine["Memtoreg"] , ALU_out , Memory_out)
     Registerin = select ( controlLine["Jandlink"] , Registerin , PC+4 )
     
     RegisterWrite = select (controlLine["register_select"] , instruction[1][16:21] , instruction [1][11 : 16 ] )
@@ -63,6 +63,6 @@ while ( PC // 4 < len( inputs ) ) :
     
     RegisterFile.write(controlLine["Regwrite"],RegisterWrite,Registerin)
     
-    PC = update_PC(PC,controlLine["j-type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[:32])
+    PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[:32])
     
         

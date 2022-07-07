@@ -2,8 +2,8 @@ def Memory(address ,data, read , write , Type) :
     
     signed = bool(int(Type[2]))
     
-    size = [4 , 4 , 2 , 1][int(type[:2])]
-    address = addres//size
+    size = [4 , 4 , 2 , 1][int(Type[:2])]
+    address = int(address[:-size])
     
     if read == '1' :
         
@@ -22,4 +22,4 @@ def Memory(address ,data, read , write , Type) :
         for i in range(size) :
             DB [address + i ] = data [i*8:i*8+8]
         for i in range(size-1,-1,-1) :
-            DB [address + i ] = data [-(i+1)*8 :- (i)*8]    
+            DB [address + i ] = data [-(i+1)*8 :- (i)*8]
