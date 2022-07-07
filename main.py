@@ -34,12 +34,6 @@ def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     return PC
 
 
-
-
-
-
-
-
 inputs = Assembler.FinalResults
 
 PC = 0
@@ -64,5 +58,3 @@ while ( PC // 4 < len( inputs ) ) :
     RegisterFile.write(controlLine["Regwrite"],RegisterWrite,Registerin)
     
     PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[:32])
-    
-        

@@ -16,20 +16,6 @@ def Memory(address ,data, read , write , Type) :
     port=port_id)
     
     open_connection = connection_to_database.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    # sql_insert_script = "insert into dataMemory (address,  string_data) values(%s, %s);"
-   
-    # insert_value = (3, '22222222')
-    # #open_connection.execute(sql_insert_script, insert_value)
-    
-    
-    
-    
-
-    
-
-
-
-    #open_connection.close()
     
     signed = bool(int(Type[2]))
     
@@ -72,7 +58,6 @@ def Memory(address ,data, read , write , Type) :
         
         for i in range(size) :
             isUpdating = False
-            # value_to_find = (address + i, )
             for res in result :
                 if res['address'] == address + i:
                     sql_update_script = "update dataMemory set string_data = %s where address = %s"
