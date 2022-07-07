@@ -1,6 +1,3 @@
-import imp
-
-
 import psycopg2
 
 host_name = "185.105.239.28"
@@ -17,6 +14,15 @@ connection_to_database = psycopg2.connect(
     password=root_password,
     port=port_id
 )
+
+open_connection = connection_to_database.cursor()
+
+sql_script = "select * from dataMemory"
+
+open_connection.execute(sql_script)
+connection_to_database.commit()
+
+open_connection.close()
 
 
 
