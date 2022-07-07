@@ -1,3 +1,4 @@
+lw t1,1,t2
 add t1,t2,t3
 sub k0,sp,v1
 addi v0,t7,55
