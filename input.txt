@@ -1,4 +1,4 @@
-lb t0,1,t1
+lw t0,1,t1
 addi t5,t5,14
 addi t1,t1,1
 sub k0,sp,v1

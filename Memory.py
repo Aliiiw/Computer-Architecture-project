@@ -70,9 +70,9 @@ def Memory(address ,data, read , write , Type) :
         print(Memdata)
         
         if signed :
-            Memdata = 32-len(Memdata)*Memdata[0] + Memdata
+            Memdata = (32-len(Memdata))*Memdata[0] + Memdata
         else :
-            Memdata = 32-len(Memdata)*'0' + Memdata
+            Memdata = (32-len(Memdata))*'0' + Memdata
     
         return Memdata
     
