@@ -44,7 +44,7 @@ inputs = Assembler.FinalResults
 
 PC = 0
 while ( PC // 4 < len( inputs ) ) :
-    
+    print(PC)
     instruction = inputs[PC//4]
 
     regdata = RegisterFile.read(instruction [1][6:11] , instruction[1][11:16])

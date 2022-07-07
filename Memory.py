@@ -79,6 +79,7 @@ def Memory(address ,data, read , write , Type) :
                     update_value = (data[i * 8 : i * 8 + 8], address + i)
                     open_connection.execute(sql_update_script, update_value)
                     isUpdating = True
+                    connection_to_database.commit()
                     break
                 
             if not isUpdating:
@@ -86,7 +87,7 @@ def Memory(address ,data, read , write , Type) :
                 sql_insert_script = "insert into dataMemory values(default, %s, %s);"
                 insert_value = ('default', address + i, data[i * 8 : i * 8 + 8])
                 open_connection.execute(sql_insert_script, insert_value)
-                
+                connection_to_database.commit()
                    
             #DB [address + i ] = data [i*8:i*8+8]
         # for i in range(size-1,-1,-1) :

@@ -1,6 +1,7 @@
 lw t0,1,t1
-addi t5,t5,14
-addi t1,t1,1
+addi t0,t0,1000
+sw t0,0,t1
+sw t0,0,t0
 sub k0,sp,v1
 addi v0,t7,55
 bne t1,t5,-4
