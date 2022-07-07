@@ -1,3 +1,25 @@
+import imp
+
+
+import psycopg2
+
+host_name = "185.105.239.28"
+database_name = "camputerArchitecture"
+root_user = "aliiiw"
+root_password = "qazwsx"
+port_id = 5432
+
+
+connection_to_database = psycopg2.connect(
+    host=host_name,
+    dbname=database_name,
+    user=root_user,
+    password=root_password,
+    port=port_id
+)
+
+
+
 def Memory(address ,data, read , write , Type) :
     
     signed = bool(int(Type[2]))
