@@ -10,17 +10,17 @@ def select ( select_line , wire_a , wire_b ) :
     if select_line =='0' :
         return wire_a
     if select_line =='b' :
-        return wire b
+        return wire_b
     print("EROR INVALID SELECT_LINE")
 
 def update_PC (PC,jype,btype,ALU_OUT , instruction ,regdata) :
     PC += 4
     
     
-    bne_beq = bool ( int (btype[1] ) )
+    beq_bne = bool ( int (btype[1] ) )
     is_eq = (ALU_OUT == 32*'0')
     
-    control_bt =  (bne_bqe and not(is_eq)) or (not(bne_bqe) and is_eq)  # XOR
+    control_bt =  (beq_bne and not(is_eq)) or (not(beq_bne) and is_eq)  # XOR
     
     PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
     
@@ -50,7 +50,7 @@ while ( PC // 4 < len( inputs ) ) :
     
     controlLine = CU.CU (instruction)
     
-    ALU_out = ALU.ALU( controlLine["opcode"] , regdata[:32] , select(controlLine['i_type'],reg[32:],instruction[16:])S)
+    ALU_out = ALU.ALU( controlLine["ALU"] , regdata[:32] , select(controlLine['i_type'],reg[32:],instruction[16:]))
     
 
     Memory_out = Memory.Memory(ALU_out , regdata[32:] ,  controlLine["Memread"] , controlLine["Memwrite"] , controlLine["memtype"])
@@ -58,7 +58,7 @@ while ( PC // 4 < len( inputs ) ) :
     Registerin = select ( controlLine["MemToReg"] , ALU_out , Memory_out)
     Registerin = select ( controlLine["Jandlink"] , Registerin , PC+4 )
     
-    RegisterWrite = select (controlLine["register_select"] , instruction[1][11:16] , instruction [1][16 : 21 ] )
+    RegisterWrite = select (controlLine["register_select"] , instruction[1][16:21] , instruction [1][11 : 16 ] )
     RegisterWrite = select (controlLine["Jandlink" ] , RegisterWrite , "11111" )
     
     RegisterFile.write(controlLine["Regwrite"],RegisterWrite,Registerin)
