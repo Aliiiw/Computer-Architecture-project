@@ -45,7 +45,10 @@ def ALU(controlLine , reg_1 , reg_2):
     #------------------------------------------------------------------------------
     elif controlLine == "0110":
         reg_2 = OneAndTwosComplement('{:032b}'.format(int(reg_2,2)))
-        result = bin(int(reg_1,2) + int(reg_2,2))[2:]
+        result = int(reg_1,2) + int(reg_2,2)-2**32
+        if result<0 :
+            result += 2**32
+        result = bin(result)[2:]
         result = '{:032b}'.format(int(result,2))
         return result
     #------------------------------------------------------------------------------

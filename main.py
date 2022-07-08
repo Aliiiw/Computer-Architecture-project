@@ -22,7 +22,11 @@ def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     
     control_bt =  (beq_bne and not(is_eq)) or (not(beq_bne) and is_eq)  # XOR
     
-    PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
+    
+    if (instruction[16] == '1' ) :
+        PC_b = select (control_bt,PC , PC + (int ( instruction [-16 :] , 2) - 2**16)*4)
+    else:
+        PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
     
     
     PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))

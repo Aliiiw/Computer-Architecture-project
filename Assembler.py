@@ -275,6 +275,11 @@ with open('input.txt') as file:
         operator1 = registers[0].lower()                                              
         operator2 = registers[1].lower()
         operator3 = registers[2].lower()
+        
+        if operator3[0] == '-' :
+            operator3 = int(operator3)
+            operator3 += 2**32
+            operator3 = str(operator3)
 
         machineCode = assembler(command, operator1, operator2, operator3)
         finalResult += [command]
