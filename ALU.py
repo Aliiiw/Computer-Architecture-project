@@ -49,7 +49,7 @@ def ALU(controlLine , reg_1 , reg_2):
         result = '{:032b}'.format(int(result,2))
         return result
     #------------------------------------------------------------------------------
-    elif controlLine == "0111":
+    elif controlLine == "0111":#slt
         if (reg_1[0] == '1' and reg_2[0] == '0'):
             result = '{:032b}'.format(1)
             return result
@@ -63,6 +63,13 @@ def ALU(controlLine , reg_1 , reg_2):
             result = '{:032b}'.format(0)
             return result
     #------------------------------------------------------------------------------
+    elif controlLine == "1000":#sltu
+        if reg_1 < reg_2:
+            result = '{:032b}'.format(1)
+            return result
+        else:
+            result = '{:032b}'.format(0)
+            return result
     elif controlLine == "1100":
         result = bin(int(reg_1,2) | int(reg_2,2))
         result = list('{:032b}'.format(int(result,2)))
