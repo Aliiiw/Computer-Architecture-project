@@ -4,14 +4,14 @@ def fullAdder(bit1,bit2,carry):
     result = (bit1 ^ bit2) ^ carry
     carry = (bit1 & bit2) | (carry & (bit1 ^ bit2))
     return result,carry
-carry = 0
-result = ''
-for counter in range(31,0,-1):
-    A = "00000000000000000000000000000001"
-    B = "11111111111111111111111111111111"
+# carry = 0
+# result = ''
+# for counter in range(31,0,-1):
+#     A = "00000000000000000000000000000001"
+#     B = "11111111111111111111111111111111"
     
-    result = str(fullAdder(int(A[counter]),int(B[counter]),carry)[0]) + result
-    carry = fullAdder(int(A[counter]),int(B[counter]),carry)[1]
+#     result = str(fullAdder(int(A[counter]),int(B[counter]),carry)[0]) + result
+#     carry = fullAdder(int(A[counter]),int(B[counter]),carry)[1]
 #print(result,"\n",carry)
 #------------------------------------------------------------------------------------------
 
@@ -65,11 +65,14 @@ def ALU(controlLine , reg_1 , reg_2):
     #------------------------------------------------------------------------------
     elif controlLine == "0110": # Substract
         reg_2 = OneAndTwosComplement('{:032b}'.format(int(reg_2,2)))
-        result = int(reg_1,2) + int(reg_2,2)-2**32
-        if result<0 :
-            result += 2**32
-        result = bin(result)[2:]
-        result = '{:032b}'.format(int(result,2))
+        # result = int(reg_1,2) + int(reg_2,2)-2**32
+        for counter in range(31,0,-1):
+            result = str(fullAdder(int(reg_1[counter]),int(reg_2[counter]),carry)[0]) + result
+            carry = fullAdder(int(reg_1[counter]),int(reg_2[counter]),carry)[1]
+            if result<0 :
+                result += 2**32
+            result = bin(result)[2:]
+            result = '{:032b}'.format(int(result,2))
         return result
     #------------------------------------------------------------------------------
     elif controlLine == "0111":#slt
