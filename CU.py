@@ -29,7 +29,7 @@ ALU['jal'] = '0000'
 
 d = {}
 
-d["i_type"] = ["addi","andi","ori","slti"]
+d["i_type"] = ["addi","andi","ori","slti","srl","sll"]
 d["i_type"] += ["lw","sw","lh","sh","lb","sb","lhu","lbu"]
 d["Memread"] = ["lw","lh","lb","lhu","lbu"]
 d["Memwrite"] = ["sw","sh","sb"]

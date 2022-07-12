@@ -25,7 +25,7 @@ def OneAndTwosComplement(bin):
 #---------------------------------------------------------------------------------------------------------------------------
 
 def ALU(controlLine , reg_1 , reg_2):
-    shiftAmount = int(reg_2,2) 
+    shiftAmount = int(reg_2[-11:-6],2) 
     result = ""
     
     if controlLine == "0000":

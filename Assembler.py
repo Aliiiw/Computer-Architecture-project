@@ -185,16 +185,18 @@ def assembler(command, operator1, operator2, operator3):
         
     elif command == "sll":
         machineCode += commandsOpCodes[command]
-        machineCode += "00000"
+        machineCode += registersValue[operator2]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
         binary =  bin(int(operator3))[2::]
+        if len(binary) < 5:
+            binary = (5 - len(binary)) * "0" + binary
         machineCode += binary
         machineCode += "000000"
 
     elif command == "srl":
         machineCode += commandsOpCodes[command]
-        machineCode += "00000"
+        machineCode += registersValue[operator2]
         machineCode += registersValue[operator2]
         machineCode += registersValue[operator1]
         binary =  bin(int(operator3))[2::]
