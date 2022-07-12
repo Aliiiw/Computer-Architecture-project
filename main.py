@@ -31,7 +31,9 @@ def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     if (jtype[1]=='1' and jtype[0] =='1'):
         print("regdata: " , regdata)
     PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))
-    
+    if jtype[1] == '0' :
+        print("jump palce : "  ,int(instruction[-26:],2))
+        
     
     PC = select (btype[0] , PC,PC_b )
     PC = select (jtype[0] ,PC , PC_j)
@@ -43,12 +45,11 @@ inputs = Assembler.FinalResults
 
 PC = 0
 while ( PC // 4 < len( inputs ) ) :
-    print("PC: ",PC)
     PC_line = bin(PC+4)[2:]
     PC_line = (32- len(PC_line))*'0' + PC_line
     
     instruction = inputs[PC//4]
-
+    print("PC: ",PC,"instruction: ", instruction[0])
     regdata = RegisterFile.read(instruction [1][6:11] , instruction[1][11:16])
     
     controlLine = CU.CU (instruction)
@@ -66,4 +67,4 @@ while ( PC // 4 < len( inputs ) ) :
     
     RegisterFile.write(controlLine["Regwrite"],RegisterWrite,Registerin)
     #print("Regwrite: ", controlLine["Regwrite"])
-    PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[32:])
+    PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[:32])
