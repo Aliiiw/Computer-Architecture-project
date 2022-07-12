@@ -288,11 +288,3 @@ with open('input.txt') as file:
         finalResult += [machineCode]
         #print(finalResult)
         FinalResults += [finalResult]
-        
-
-        
-
-       
-
-
-

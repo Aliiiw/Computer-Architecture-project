@@ -8,36 +8,36 @@ import CU
 
 def select ( select_line , wire_a , wire_b ) :
     
-    if bool(int(select_line)) == False :
+    if bool(int(select_line)) == False :  
         return wire_a
     if bool(int(select_line)) == True :
         return wire_b
     print("EROR INVALID SELECT_LINE")
 
-def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
+def update_PC (PC, jtype, btype, ALU_OUT , instruction ,regdata) :
     PC += 4
     
     
-    beq_bne = bool ( int (btype[1] ) )
+    beq_bne = bool (int(btype[1]))
     is_eq = (ALU_OUT == 32*'0')
     
     control_bt =  (beq_bne and not(is_eq)) or (not(beq_bne) and is_eq)  # XOR
     
     
-    if (instruction[16] == '1' ) :
+    if (instruction[16] == '1') :
         PC_b = select (control_bt,PC , PC + (int ( instruction [-16 :] , 2) - 2**16)*4)
     else:
         PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
     
-    if (jtype[1]=='1' and jtype[0] =='1'):
+    if (jtype[1] == '1' and jtype[0] == '1'):
         print("regdata: " , regdata)
-    PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))
-    if jtype[1] == '0' :
-        print("jump palce : "  ,int(instruction[-26:],2))
+    PC_j = select (jtype[1], int(instruction[-26:],2) , int(regdata,2))
+    if jtype[1] == '0' and jtype[0] == '1':
+        print("jump palce : ", int(instruction[-26:],2))
         
     
-    PC = select (btype[0] , PC,PC_b )
-    PC = select (jtype[0] ,PC , PC_j)
+    PC = select (btype[0] , PC, PC_b )
+    PC = select (jtype[0] , PC, PC_j)
 
     return PC
 
@@ -50,7 +50,7 @@ while ( PC // 4 < len( inputs ) ) :
     PC_line = (32- len(PC_line))*'0' + PC_line
     
     instruction = inputs[PC//4]
-    print("PC: ",PC,"instruction: ", instruction[0])
+    print("PC: ",PC,"instruction: ", instruction[0])  
     regdata = RegisterFile.read(instruction [1][6:11] , instruction[1][11:16])
     
     controlLine = CU.CU (instruction)

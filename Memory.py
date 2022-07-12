@@ -16,27 +16,13 @@ def Memory(address ,data, read , write , Type) :
     port=port_id)
     
     open_connection = connection_to_database.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    # sql_insert_script = "insert into dataMemory (address,  string_data) values(%s, %s);"
-   
-    # insert_value = (3, '22222222')
-    # #open_connection.execute(sql_insert_script, insert_value)
-    
-    
-    
-    
-
-    
-
-
-
-    #open_connection.close()
     
     signed = bool(int(Type[2]))
     
     size = [4 , 4 , 2 , 1][int(Type[:2], 2)]
-    address= int(address,2)
-    if address %size != 0 :
-        address = size*(address // size)
+    address = int(address, 2)
+    if address % size != 0 :
+        address = size * (address // size)
     
     if read == '1' :
         print("read address: " , address)     
@@ -51,13 +37,10 @@ def Memory(address ,data, read , write , Type) :
             Memdata += element['string_data']
             
             
-            
-        #print(Memdata)
-        
         if signed :
-            Memdata = (32-len(Memdata))*Memdata[0] + Memdata
+            Memdata = (32-len(Memdata)) * Memdata[0] + Memdata
         else :
-            Memdata = (32-len(Memdata))*'0' + Memdata
+            Memdata = (32-len(Memdata)) * '0' + Memdata
     
         return Memdata
     
@@ -71,12 +54,11 @@ def Memory(address ,data, read , write , Type) :
         
         for i in range(size) :
             isUpdating = False
-            # value_to_find = (address + i, )
+            
             for res in result :
                 if res['address'] == address + i:
                     sql_update_script = "update datamemory set string_data = %s where address = %s"
                     update_value = (data[24 - (i * 8 ): 32 - (i * 8) ], address + size - 1 - i)
-                    #print(24 - (i * 8 ) , 32 - (i * 8) , data[24 - (i * 8 ): 32 - (i * 8) ] )
                     
                     open_connection.execute(sql_update_script, update_value)
                     isUpdating = True
@@ -87,16 +69,10 @@ def Memory(address ,data, read , write , Type) :
                 
                 sql_insert_script = "insert into datamemory (address, string_data) values(%s, %s);"
                 insert_value = (address + size - 1 - i, data[24 - (i * 8) : 32 - (i * 8) ])
-                #print(24 - (i * 8 ) , 32 - (i * 8) , data[24 - (i * 8 ): 32 - (i * 8) ] )
+                
                     
                 open_connection.execute(sql_insert_script, insert_value)
                 connection_to_database.commit()
-                   
-            #DB [address + i ] = data [i*8:i*8+8]
-        # for i in range(size-1,-1,-1) :
-        #     DB [address + i ] = data [-(i+1)*8 :- (i)*8]
-            
-            
+                
     connection_to_database.commit()
     open_connection.close()
-

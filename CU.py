@@ -75,14 +75,14 @@ def CU ( instruction) :
         if (command in d[Line]):
             controlLine[Line] = '1'
             
-    for Line in ["Memtype","j_type","b_type"]:
+    for Line in ["Memtype", "j_type", "b_type"]:
         i = 0
         s = ""
         while Line + str(i) in d :
-            if command in d[Line+str(i)]:
-              s+='1'
+            if command in d[Line + str(i)]:
+              s += '1'
             else :
-                s+='0'
+                s += '0'
             i+=1
         controlLine[Line] = s
     
