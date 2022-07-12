@@ -7,15 +7,19 @@ import CU
 
 
 def select ( select_line , wire_a , wire_b ) :
+    select = bool(int(select_line))
+    wire_a = [x=='1' for x in wire_a]
+    wire_b = [x=='1' for x in wire_b]
+    return   [str(int((not(select) and wire_a[i]) or (select and wire_b[i]))) for i in range(min(len(wire_a),len(wire_b)))]
     
-    if bool(int(select_line)) == False :
-        return wire_a
-    if bool(int(select_line)) == True :
-        return wire_b
-    print("EROR INVALID SELECT_LINE")
+#    if bool(int(select_line)) == False :
+#        return wire_a
+#    if bool(int(select_line)) == True :
+#        return wire_b
+#    print("EROR INVALID SELECT_LINE")
 
 def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
-    PC += 4
+    bin (int(PC,2) + 4 )[2:]
     
     
     beq_bne = bool ( int (btype[1] ) )
@@ -25,31 +29,31 @@ def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     
     
     if (instruction[16] == '1' ) :
-        PC_b = select (control_bt,PC , PC + (int ( instruction [-16 :] , 2) - 2**16)*4)
+        PC_b = select (control_bt,PC ,bool(int( PC[:-2],2) + (int ( instruction [-16 :] ,2 ) - 2**16)*4)[2:])
     else:
-        PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
+        PC_b = select (control_bt,PC ,bool( int(PC,2) + int ( instruction [-16 :]+'00', 2))[2:] )
     
     if (jtype[1]=='1' and jtype[0] =='1'):
         print("regdata: " , regdata)
-    PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))
+    PC_j = select (jtype[1],instruction[-26:],2 , regdata)
     if jtype[1] == '0' :
         print("jump palce : "  ,int(instruction[-26:],2))
         
     
     PC = select (btype[0] , PC,PC_b )
     PC = select (jtype[0] ,PC , PC_j)
-
+    if PC 
     return PC
 
 
 inputs = Assembler.FinalResults
 
-PC = 0
-while ( PC // 4 < len( inputs ) ) :
-    PC_line = bin(PC+4)[2:]
+PC = 32*'0'
+while ( int(PC[:-2]) < len( inputs ) ) :
+    PC_line = bin(int(PC,2)+4)[2:]
     PC_line = (32- len(PC_line))*'0' + PC_line
     
-    instruction = inputs[PC//4]
+    instruction = inputs[int(PC,2)]
     print("PC: ",PC,"instruction: ", instruction[0])
     regdata = RegisterFile.read(instruction [1][6:11] , instruction[1][11:16])
     
