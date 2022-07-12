@@ -28,7 +28,8 @@ def update_PC (PC,jtype,btype,ALU_OUT , instruction ,regdata) :
     else:
         PC_b = select (control_bt,PC , PC + int ( instruction [-16 :]+'00', 2) )
     
-    
+    if (jtype[1]=='1' and jtype[0] =='1'):
+        print("regdata: " , regdata)
     PC_j = select (jtype[1],int(instruction[-26:],2) , int(regdata,2))
     
     
@@ -42,7 +43,10 @@ inputs = Assembler.FinalResults
 
 PC = 0
 while ( PC // 4 < len( inputs ) ) :
-    print(PC)
+    print("PC: ",PC)
+    PC_line = bin(PC+4)[2:]
+    PC_line = (32- len(PC_line))*'0' + PC_line
+    
     instruction = inputs[PC//4]
 
     regdata = RegisterFile.read(instruction [1][6:11] , instruction[1][11:16])
@@ -54,11 +58,12 @@ while ( PC // 4 < len( inputs ) ) :
     Memory_out = Memory.Memory(ALU_out , regdata[32:] ,  controlLine["Memread"] , controlLine["Memwrite"] , controlLine["Memtype"])
     
     Registerin = select ( controlLine["Memtoreg"] , ALU_out , Memory_out)
-    Registerin = select ( controlLine["Jandlink"] , Registerin , PC+4 )
-    
+    Registerin = select ( controlLine["Jandlink"] , Registerin , PC_line )
+    #if (controlLine["Jandlink"]=='1' ):
+    #    print("Registerin: ",Registerin)
     RegisterWrite = select (controlLine["register_select"] , instruction[1][16:21] , instruction [1][11 : 16 ] )
     RegisterWrite = select (controlLine["Jandlink" ] , RegisterWrite , "11111" )
     
     RegisterFile.write(controlLine["Regwrite"],RegisterWrite,Registerin)
-    
-    PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[:32])
+    #print("Regwrite: ", controlLine["Regwrite"])
+    PC = update_PC(PC,controlLine["j_type"] , controlLine ["b_type"] , ALU_out , instruction[1] , regdata[32:])

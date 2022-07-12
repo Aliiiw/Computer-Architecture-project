@@ -34,16 +34,12 @@ def Memory(address ,data, read , write , Type) :
     signed = bool(int(Type[2]))
     
     size = [4 , 4 , 2 , 1][int(Type[:2], 2)]
-    if (size == 1):
-        address= int(address)
-    else :
-        address = int(address[:-(size-1)] + (size-1)*'0',2)
-    
-    if size!= 4:
-        data = data[:-size*8]
+    address= int(address,2)
+    if address %size != 0 :
+        address = size*(address // size)
     
     if read == '1' :
-        
+        print("read address: " , address)     
         Memdata = "" 
         
         value = size - 1    
@@ -66,7 +62,7 @@ def Memory(address ,data, read , write , Type) :
         return Memdata
     
     if write == '1':
-        
+        print("write: " , address)
         value = size - 1
         sql_select_script = "select * from datamemory where address between %s and %s;"
         select_value = ( address, address + value)
@@ -79,7 +75,9 @@ def Memory(address ,data, read , write , Type) :
             for res in result :
                 if res['address'] == address + i:
                     sql_update_script = "update datamemory set string_data = %s where address = %s"
-                    update_value = (data[i * 8 : i * 8 + 8], address + i)
+                    update_value = (data[24 - (i * 8 ): 32 - (i * 8) ], address + size - 1 - i)
+                    #print(24 - (i * 8 ) , 32 - (i * 8) , data[24 - (i * 8 ): 32 - (i * 8) ] )
+                    
                     open_connection.execute(sql_update_script, update_value)
                     isUpdating = True
                     connection_to_database.commit()
@@ -88,7 +86,9 @@ def Memory(address ,data, read , write , Type) :
             if not isUpdating:
                 
                 sql_insert_script = "insert into datamemory (address, string_data) values(%s, %s);"
-                insert_value = (address + i, data[i * 8 : i * 8 + 8])
+                insert_value = (address + size - 1 - i, data[24 - (i * 8) : 32 - (i * 8) ])
+                #print(24 - (i * 8 ) , 32 - (i * 8) , data[24 - (i * 8 ): 32 - (i * 8) ] )
+                    
                 open_connection.execute(sql_insert_script, insert_value)
                 connection_to_database.commit()
                    
